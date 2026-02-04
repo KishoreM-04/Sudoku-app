@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Sudoku</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <div class="app-wrapper">
+    <div class="app-card">
+      <header class="app-header">
+        <div class="title">
+          <h1>Sudoku</h1>
+          <p class="subtitle">Classic board · enjoy the challenge</p>
+        </div>
+
+        <div class="header-top">
+          <div class="meta-top">
+            <div id="timer" class="timer">⏱️ <span id="timer-value">00:00</span></div>
+            <div class="target">Target: <span id="target-display">—</span></div>
+          </div>
+          <div class="leader-top">
+            <button id="leaderBtn" class="btn btn-outline">🏆 Leaderboard</button>
+          </div>
+        </div>
+
+
+      </header>
+
+      <!-- confetti container -->
+      <div id="confetti" aria-hidden="true"></div>
+
+      <main class="app-main">
+        <div class="board-area">
+          <div id="board-wrapper" class="board-card classic">
+            <table id="sudoku-grid" aria-label="Sudoku grid"></table>
+          </div>
+
+          <aside class="side-actions" aria-label="Game actions">
+            <div class="side-panel">
+              <button id="newBtn" class="btn btn-primary big-cta" data-tooltip="Start a new game">✨ New Game</button>
+              <div class="side-divider" aria-hidden="true"></div>
+              <div class="side-list">
+                <button id="showSolBtn" class="side-btn" data-action="show-solution" data-tooltip="Reveal the full solution"><span class="icon">🧠</span><span class="label">Show Solution</span></button>
+                <button id="checkBtn" class="side-btn" data-action="check" data-tooltip="Check your solution"><span class="icon">✅</span><span class="label">Check</span></button>
+                <button id="resetBtn" class="side-btn" data-action="reset" data-tooltip="Reset to puzzle start"><span class="icon">↺</span><span class="label">Reset</span></button>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <div id="messages" class="messages" aria-live="polite"></div>
+      </main>
+
+      <footer class="app-footer">
+        <small>Good luck!</small>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Name Modal -->
+  <div id="name-modal" class="modal">
+    <div class="modal-content modal-welcome">
+      <div class="welcome-icon">🎯</div>
+      <h2>Welcome 👋</h2>
+      <p class="muted">What's your name?</p>
+      <input id="playerName" type="text" placeholder="Your name" class="name-input" />
+      <div style="margin-top:14px">
+        <button id="startNameBtn" class="btn btn-primary">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Difficulty Modal -->
+  <div id="difficulty-modal" class="modal hidden">
+    <div class="modal-content modal-difficulty">
+      <h2>Choose Difficulty</h2>
+      <p class="muted">Pick one to start. Each level has a recommended target time.</p>
+      <div class="difficulty-grid" style="margin-top:14px">
+        <button class="difficulty-card difficulty" data-diff="easy" data-desc="Relaxed pace, more clues to help you." data-target="600">
+          <div class="diff-title">Easy</div>
+          <div class="diff-desc">Relaxed pace, more clues</div>
+          <div class="diff-goal">Target: 10:00</div>
+        </button>
+        <button class="difficulty-card difficulty" data-diff="medium" data-desc="Balanced challenge, common grid density." data-target="360">
+          <div class="diff-title">Medium</div>
+          <div class="diff-desc">Balanced challenge</div>
+          <div class="diff-goal">Target: 6:00</div>
+        </button>
+        <button class="difficulty-card difficulty" data-diff="hard" data-desc="Tough puzzles; for experienced solvers." data-target="180">
+          <div class="diff-title">Hard</div>
+          <div class="diff-desc">Tough puzzles</div>
+          <div class="diff-goal">Target: 3:00</div>
+        </button>
+      </div>
+      <div style="margin-top:14px">
+        <button id="cancelDifficulty" class="btn btn-outline">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaderboard Modal -->
+  <div id="leader-modal" class="modal hidden">
+    <div class="modal-content modal-leader">
+      <h2>Leaderboard</h2>
+      <div class="leader-controls" style="margin-top:8px;display:flex;gap:8px;align-items:center;justify-content:center">
+        <label class="muted">Filter:</label>
+        <select id="leaderFilter" style="padding:6px;border-radius:6px;border:1px solid #e6e6e6">
+          <option value="all">All</option>
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+      </div>
+      <div id="leaderboard" style="margin-top:12px"></div>
+      <div style="margin-top:12px;display:flex;gap:8px;justify-content:center">
+        <button id="closeLeader" class="btn btn-ghost">Close</button>
+        <button id="clearLeader" class="btn btn-outline">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="complete-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>🎉 Puzzle Solved!</h2>
+      <p id="complete-time"></p>
+      <button id="closeModal" class="btn btn-primary">Awesome!</button>
+    </div>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
